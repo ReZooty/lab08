@@ -3,38 +3,20 @@ name: CMake
 on:
  push:
   branches: [master]
-  tags: -"v0.1.*.*"
  pull_request:
   branches: [master]
-env:
-  BUILD_TYPE: Release
+
 jobs: 
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     
-    - name: Packing
-      run: |
-        cmake -H. -B_build
-        cmake --build _build
-        cd _build
-        cpack -G "TGZ"
-        cpack -G "DEB"
-        cpack -G "RPM"
-        cd ..
-        cmake -H. -B_build -DCPACK_GENERATOR="TGZ"
-        cmake --build _build --target package
-             
-    - name: Moving
-      run: |
-        mkdir ../artifacts
-        mv _build/*.tar.gz ../artifacts/
-        mv _build/*.deb ../artifacts/
-        mv _build/*.rpm ../artifacts/
+    - name: Configure Solver
+      run: cmake ${{github.workspace}}/solver_application/ -B ${{github.workspace}}/solver_application/build
 
-    - name: Publish
-      uses: actions/upload-artifact@v2
-      with:
-        name: artifact
-        path: artifacts/
+    - name: Build Solver
+      run: cmake --build ${{github.workspace}}/solver_application/build
+    
+    - name: Build docker
+      run: docker build -t logger .
