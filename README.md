@@ -1,4 +1,3 @@
-[![Coverage Status](https://img.shields.io/badge/coverage-100%25-ff69b4)](https://coveralls.io/github/ReZooty/lab08)
 # lab08 by Telepov Igor
 
 # Изменил CPackConfig.cmake
