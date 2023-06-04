@@ -15,3 +15,5 @@ ENV LOG_PATH /home/logs/log.txt
 VOLUME /home/logs
 
 WORKDIR _install/bin
+
+ENTRYPOINT ./demo
